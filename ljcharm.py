@@ -116,6 +116,7 @@ Basic_MetaData = [ "year", "mon", "day", "hour", "min", "event", "unfiltered",
 		   "security", "allowmask",
 		   "prop_current_mood", "prop_current_moodid",
 		   "prop_picture_keyword", "prop_current_music",
+                   "prop_current_location",
 		   "prop_opt_preformatted",
 		   "prop_opt_backdated", "prop_opt_screening",
 		   "prop_opt_nocomments", "prop_opt_noemail",
@@ -2377,6 +2378,9 @@ on stdin. The filter must return its output on stdout.
 	if self.Params.has_key("prop_current_music"):
 	    f.write("Music:     " + self.Params["prop_current_music"] + "\n")
 
+	if self.Params.has_key("prop_current_location"):
+	    f.write("Location:     " + self.Params["prop_current_location"] + "\n")
+
 	try:
 	    if self.Params["security"] == "usemask":
 		if self.Params["allowmask"] == "1":
@@ -2835,6 +2839,8 @@ on stdin. The filter must return its output on stdout.
                     self.Params["prop_picture_keyword"] = val
                 elif elem == "Music":
                     self.Params["prop_current_music"] = val
+                elif elem == "Location":
+                    self.Params["prop_current_location"] = val
                 elif elem == "Security":
                     if val != "custom":
                         self.set_security(val)
@@ -5257,6 +5263,8 @@ SELECT ARCHIVE ORGANIZATION
 		    pass
 	    elif o in ("-j", "--journal"):
 		self.Params["usejournal"] = string.lower(a)
+	    elif o in ("-L", "--location"):
+		self.Params["prop_current_location"] = a
 	    elif o in ("-M", "--music"):
 		self.Params["prop_current_music"] = a
             elif o in ("-A", "--autodetect"):
@@ -6108,6 +6116,7 @@ LiveJournal only:
   -m, --mood MOOD          Specify mood.
   -k, --pic KEYWORD        Specify picture keyword.
   -t, --tag TAG            Specify a tag.
+  -L, --location "LOCATION"      Specify location.
   -M, --music "MUSIC"      Specify music.
   -A, --autodetect         Autodetect music using XMMS.
   --autoformat=[on|off]    Format your post yourself? Set this to off.
@@ -6126,11 +6135,11 @@ Non-LiveJournal only:
 
 def main():
 
-    short_opts = "hoDAf:u:clnqzs:m:k:t:p:M:j:d:a:r:x:i:g:S:T:"
+    short_opts = "hoDAf:u:clnqzs:m:k:t:p:L:M:j:d:a:r:x:i:g:S:T:"
     long_opts = [ "help", "options", "debug", "autodetect",
 		  "file=", "user=", "check", "login", "nologin",
 		  "quick", "sync", "subject=", "mood=", "pic=",
-                  "cat=", "tag=", "keywords=",
+                  "cat=", "tag=", "keywords=", "location=",
                   "music=", "journal=", "permit=", "security=",
 		  "drafts=", "archive=", "resume=", "xpost=",
                   "interval=", "group=", "autoformat=", "backdate=",
