@@ -354,7 +354,7 @@ def utf8(s):
     "UTF-8 encode a string, if supported."
 
     loc = locale.getdefaultlocale()
-    if loc[1] == "UTF8":
+    if loc[1] == "UTF-8":       # ss added missing hyphen in UTF-8
         return s
     else:
         try:
